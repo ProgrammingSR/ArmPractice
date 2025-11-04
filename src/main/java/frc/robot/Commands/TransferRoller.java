@@ -7,17 +7,17 @@ import frc.robot.Robot;
 import frc.robot.SubSystem.IntakeSubsystem;
 
 
-public class IntakeRoller extends Command {
+public class TransferRoller extends Command {
     private IntakeSubsystem m_intakeSubsystem;
     
-    public IntakeRoller(IntakeSubsystem subsystem) {
+    public TransferRoller(IntakeSubsystem subsystem) {
         m_intakeSubsystem = subsystem;
         addRequirements(m_intakeSubsystem);
       }
         
       @Override
       public void initialize() {
-        m_intakeSubsystem.runRollers();
+        m_intakeSubsystem.transferRollers();
       }
 
       // Returns true when the command should end.

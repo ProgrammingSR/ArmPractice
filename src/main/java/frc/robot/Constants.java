@@ -32,9 +32,12 @@ public class Constants {
   public static final int kArmMotorID = 39;
   public static final int kArmEncoderChannel = 1;
 
-  // In degrees
-  public static final double kIntakeLoweredAngle = -0.05;
-  public static final double kIntakeRaisedAngle = 0.1;
+  public static final int kTopShooterMotorPort = 20;
+    public static final int kBottomShooterMotorPort = 35;
+
+  // In radians i think
+  public static final double kIntakeLoweredAngle = 0.03;
+  public static final double kIntakeRaisedAngle = -0.05;
   public static final double kIntakeAmpScoringAngle = 76; // 193 - 100 (previous angle)
 
   /** Encoder offset in rotations */

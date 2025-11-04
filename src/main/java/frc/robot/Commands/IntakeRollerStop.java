@@ -7,24 +7,24 @@ import frc.robot.Robot;
 import frc.robot.SubSystem.IntakeSubsystem;
 
 
-public class IntakeRoller extends Command {
+public class IntakeRollerStop extends Command {
     private IntakeSubsystem m_intakeSubsystem;
     
-    public IntakeRoller(IntakeSubsystem subsystem) {
-        m_intakeSubsystem = subsystem;
+    public IntakeRollerStop(IntakeSubsystem subsystem) {
+        m_intakeSubsystem = subsystem;    
         addRequirements(m_intakeSubsystem);
       }
         
       @Override
       public void initialize() {
-        m_intakeSubsystem.runRollers();
+        m_intakeSubsystem.stopRollers();
       }
 
       // Returns true when the command should end.
       @Override
       public boolean isFinished() {
         
-        return false;
+        return true;
       }
     
 }  

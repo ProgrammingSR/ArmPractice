@@ -57,5 +57,13 @@ public class IntakeSubsystem extends SubsystemBase {
     public void runRollers() {
         roller_motor.set(0.1);
     }
+    
+    public void stopRollers() {
+        roller_motor.set(0);
+    }
+
+    public void transferRollers() {
+        roller_motor.set(-0.1);
+    }
 }
 

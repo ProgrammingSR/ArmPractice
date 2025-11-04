@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.Commands.*;
 import frc.robot.SubSystem.IntakeSubsystem;
+import frc.robot.SubSystem.OutakeSubsystem;
 import pabeles.concurrency.IntRangeTask;
 
 //import frc.robot.Commands.*;
@@ -36,9 +37,8 @@ public class Robot extends TimedRobot {
 
   private final IntakeSubsystem mIntakeSubsystem = new IntakeSubsystem();
 
-  private IntakeUp m_IntakeUp;
-  private IntakeDown m_IntakeDown;
-  private IntakeRoller m_IntakeRoller;
+  private final OutakeSubsystem mOutakeSubsystem = new OutakeSubsystem();
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -98,12 +98,21 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
 
     SequentialCommandGroup runIntake = new SequentialCommandGroup(new IntakeDown(mIntakeSubsystem), new IntakeRoller(mIntakeSubsystem));
+    SequentialCommandGroup upIntake = new SequentialCommandGroup(new IntakeRollerStop(mIntakeSubsystem), new IntakeUp(mIntakeSubsystem));
 
     new JoystickButton(gameController, Button.kA.value)
     .whileTrue(runIntake)
-    .whileFalse(new IntakeUp(mIntakeSubsystem));
+    .whileFalse(upIntake);
+
+    ParallelCommandGroup shoot = new ParallelCommandGroup(new TransferRoller(mIntakeSubsystem), new Shoot(mOutakeSubsystem));
+    ParallelCommandGroup shootstop = new ParallelCommandGroup(new ShootStop(mOutakeSubsystem), new IntakeRollerStop(mIntakeSubsystem));
+
+    new JoystickButton(gameController, Button.kB.value)
+    .whileTrue(shoot)
+    .whileFalse(shootstop);
 
   }
+
 
   /** This function is called periodically during operator control. */
   @Override
