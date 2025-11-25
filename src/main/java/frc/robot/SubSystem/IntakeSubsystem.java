@@ -11,7 +11,6 @@ import frc.robot.Constants;
 import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 
  
 public class IntakeSubsystem extends SubsystemBase {
@@ -64,6 +63,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void transferRollers() {
         roller_motor.set(-0.1);
+    }
+    
+    public void reset() {
+        stopRollers();
+
     }
 }
 

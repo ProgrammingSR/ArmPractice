@@ -48,4 +48,6 @@ public class Constants {
   public static final int kProximityThreshold = 145;
   // public static final int kIRThreshold = 2;
 
+  public static final int kDriverControllerPort = 0;
+  public static final int kOperatorControllerPort = 1;
 }

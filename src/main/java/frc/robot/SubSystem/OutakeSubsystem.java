@@ -8,10 +8,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.Constants;
 
-import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 
  
 public class OutakeSubsystem extends SubsystemBase {
@@ -39,6 +37,10 @@ public class OutakeSubsystem extends SubsystemBase {
     public void runRollers() {
         top_motor.set(0.6);
         bottom_motor.set(0.6);
+    }
+
+    public void reset() {
+        stop();
     }
 
 }

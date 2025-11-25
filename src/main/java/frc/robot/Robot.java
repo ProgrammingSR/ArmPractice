@@ -5,20 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
-import frc.robot.Commands.*;
-import frc.robot.SubSystem.IntakeSubsystem;
-import frc.robot.SubSystem.OutakeSubsystem;
-import pabeles.concurrency.IntRangeTask;
 
 //import frc.robot.Commands.*;
 
@@ -28,26 +16,18 @@ import pabeles.concurrency.IntRangeTask;
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  
 
-  private final XboxController gameController = new XboxController(0);
-
-  private final IntakeSubsystem mIntakeSubsystem = new IntakeSubsystem();
-
-  private final OutakeSubsystem mOutakeSubsystem = new OutakeSubsystem();
+  private RobotContainer m_RobotContainer;
 
 
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
-  public Robot() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+  @Override
+  public void robotInit() {
+    m_RobotContainer = new RobotContainer();
   }
 
   /**
@@ -59,7 +39,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().run();;
+    CommandScheduler.getInstance().run();
   }
 
   /**
@@ -74,42 +54,21 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+    
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+    
   }
 
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
 
-    SequentialCommandGroup runIntake = new SequentialCommandGroup(new IntakeDown(mIntakeSubsystem), new IntakeRoller(mIntakeSubsystem));
-    SequentialCommandGroup upIntake = new SequentialCommandGroup(new IntakeRollerStop(mIntakeSubsystem), new IntakeUp(mIntakeSubsystem));
-
-    new JoystickButton(gameController, Button.kA.value)
-    .whileTrue(runIntake)
-    .whileFalse(upIntake);
-
-    ParallelCommandGroup shoot = new ParallelCommandGroup(new TransferRoller(mIntakeSubsystem), new Shoot(mOutakeSubsystem));
-    ParallelCommandGroup shootstop = new ParallelCommandGroup(new ShootStop(mOutakeSubsystem), new IntakeRollerStop(mIntakeSubsystem));
-
-    new JoystickButton(gameController, Button.kB.value)
-    .whileTrue(shoot)
-    .whileFalse(shootstop);
+    m_RobotContainer.resetAllSubsystems();
+    
 
   }
 
